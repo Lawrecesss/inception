@@ -1,0 +1,102 @@
+services:
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    restart: always
+    env_file:
+      - .env
+    environment:
+      DB_ROOT_PWD: /run/secrets/db_root_pwd
+      WP_DB_PWD: /run/secrets/wp_db_pwd
+    secrets:
+      - db_root_pwd
+      - wp_db_pwd
+    expose:
+      - "3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - inception-network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$(cat /run/secrets/db_root_pwd) --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    restart: always
+    env_file:
+      - .env
+    environment:
+      WP_DB_PWD: /run/secrets/wp_db_pwd
+      WP_ADMIN_PWD: /run/secrets/wp_admin_pwd
+      WP_USER_PWD: /run/secrets/wp_user_pwd
+    secrets:
+      - wp_db_pwd
+      - wp_admin_pwd
+      - wp_user_pwd
+    expose:
+      - "9000"
+    volumes:
+      - wp_data:/var/www/html
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - inception-network
+    healthcheck:
+      test: ["CMD", "php-fpm", "-t"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "443:443"
+    volumes:
+      - ./requirements/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./../ssl:/etc/nginx/ssl:ro
+      - wp_data:/var/www/html
+    extra_hosts:
+      - "lshein.42.fr:172.17.0.1"
+    depends_on:
+      wordpress:
+        condition: service_healthy
+    networks:
+      - inception-network
+
+networks:
+  inception-network:
+    driver: bridge
+
+volumes:
+  wp_data:
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: ${PWD}/data/wp
+        
+  db_data:
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: ${PWD}/data/db
+      
+secrets:
+  wp_admin_pwd:
+    file: ./../secrets/wp_admin_pwd.txt
+  wp_user_pwd:
+    file: ./../secrets/wp_user_pwd.txt
+  wp_db_pwd:
+    file: ./../secrets/wp_db_pwd.txt
+  db_root_pwd:
+    file: ./../secrets/db_root_pwd.txt
