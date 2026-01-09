@@ -1,197 +1,188 @@
-This project has been created as part of the 42 curriculum by lshein.
+*This project has been created as part of the 42 curriculum by lshein.*
 
-Inception
-🧩 Description
+# Inception
+## 🧩 Description
 
 Inception is a system-administration and DevOps project from the 42 curriculum.
 The goal of the project is to introduce containerization concepts by building a secure and reproducible multi-service infrastructure using Docker.
 
 This project deploys a fully containerized web stack consisting of:
 
-Nginx – HTTPS reverse proxy with TLS 1.2/1.3 enabled
+* Nginx – HTTPS reverse proxy with TLS 1.2/1.3 enabled
 
-WordPress – PHP-based CMS
+* WordPress – PHP-based CMS
 
-MariaDB – relational database for WordPress
+* MariaDB – relational database for WordPress
 
 Key security properties:
 
-HTTPS-only (port 443 only)
+* HTTPS-only (port 443 only)
 
-TLS v1.2 and v1.3 enabled
+* TLS v1.2 and v1.3 enabled
 
-One container per service
+* One container per service
 
-Inter-service communication only through a Docker network
+* Inter-service communication only through a Docker network
 
-Persistent storage using Docker volumes
+* Persistent storage using Docker volumes
 
-🚀 Instructions
-🔧 Requirements
+## 🚀 Instructions
+## 🔧 Requirements
 
-Docker
+* Docker
 
-Docker Compose
+* Docker Compose
 
-GNU Make
+* GNU Make
 
-sudo rights (to edit /etc/hosts for local domain)
+* sudo rights (to edit /etc/hosts for local domain)
 
-🏗️ Build & Run
+## 🏗️ Build & Run
 
 The project is orchestrated with Docker Compose and controlled with a Makefile.
 
 Build and start everything:
-
-make
-
+`make`
 
 Stop services:
-
-make down
-
+`make down`
 
 Rebuild:
-
-make re
-
+`make re`
 
 Full cleanup (containers, images, volumes):
+`make fclean`
 
-make fclean
-
-🌐 Accessing the Website
+## 🌐 Accessing the Website
 
 The project must be accessible through the domain:
 
-lshein.42.sg
-
+[lshein.42.sg](https://lshein.42.fr)
 
 Only HTTPS over port 443 is enabled.
 HTTP is disabled.
 
-✅ Enabling the domain name locally
+**✅ Enabling the domain name locally**
 
 Add the following entry to your /etc/hosts file:
-
-127.0.0.1   lshein.42.sg
-
+`127.0.0.1   lshein.42.sg`
 
 Steps:
 
-Open hosts file
+* Open hosts file: `sudo nano /etc/hosts`
 
-sudo nano /etc/hosts
+* Add the host: `127.0.0.1   lshein.42.sg`
 
+* Save and exit
 
-Add the line above
-
-Save and exit
-
-Now open in your browser:
-
-https://lshein.42.fr
-
+Now open in your browser: https://lshein.42.fr
 
 Your browser may warn about self-signed certificate — this is expected in local setups.
 
-📦 Project Description — Docker & Design Choices
+## 📦 Project Description — Docker & Design Choices
 
 This project recreates a small production-like infrastructure using containerization.
 
-🧠 Main design choices
+## 🧠 Main design choices
 
-OS-level virtualization via Docker
+* OS-level virtualization via Docker
 
-one service per container
+* one service per container
 
-Docker Compose manages orchestration
+* Docker Compose manages orchestration
 
-Makefile automates commands
+* Makefile automates commands
 
-custom Docker network
+* custom Docker network
 
-volumes for database and WordPress persistence
+* volumes for database and WordPress persistence
 
-TLS v1.2 and v1.3 only
+* TLS v1.2 and v1.3 only
 
-Nginx listens exclusively on port 443
+* Nginx listens exclusively on port 443
 
-Data flow overview:
+## 🌊 Data flow overview
 
-Client → Nginx (HTTPS 443) → WordPress (php-fpm) → MariaDB
+`Client → Nginx (HTTPS 443) → WordPress (php-fpm) → MariaDB`
 
-🔐 TLS Configuration Summary
+## 🔐 TLS Configuration Summary
 
-TLS v1.2 and v1.3 enabled
+* TLS v1.2 and v1.3 enabled
 
-Port 443 only
+* Port 443 only
 
-Self-signed or generated certificate
+* Self-signed or generated certificate
 
-HTTP disabled/redirected
+## 🐳 Concept Comparisons
+**Virtual Machines vs Docker**
 
-Secure ciphers preferred
+| Virtual Machines	      | Docker Containers       |
+|-------------------------|-------------------------|
+|Hardware virtualization	| OS-level                |
+|Heavy, each runs full OS |	Lightweight             |
+|Slow boot	              | Fast startup            |
+|Strong isolation	        | Process isolation       |
 
-🐳 Concept Comparisons
-Virtual Machines vs Docker
-Virtual Machines	Docker Containers
-Hardware virtualization	OS-level
-Heavy, each runs full OS	Lightweight
-Slow boot	Fast startup
-Strong isolation	Process isolation
-Secrets vs Environment Variables
-Environment Variables	Docker Secrets
-Visible in env	Mounted as files
-Simple	More secure
-Good for dev	Best for prod
-Docker Network vs Host Network
-Docker Network	Host Network
-Isolated	No isolation
-Default choice	Higher risk
-Separate IP space	Uses host IP
-Docker Volumes vs Bind Mounts
-Docker Volumes	Bind Mounts
-Managed by Docker	Direct host path
-Persistent app data	Dev convenience
-Backups easy	Manual control
+**Environment Variables vs Secrets**
+
+|Environment Variables	|Docker Secrets|
+|-----------------------|--------------|
+Visible in env	|Mounted as files
+Simple	|More secure
+Good for dev	|Best for production
+
+**Docker Network vs Host Network**
+
+|Docker Network	|Host Network|
+|---------------|------------|
+Isolated	|No isolation
+Default choice	|Higher risk
+Separate IP space	|Uses host IP
+
+**Docker Volumes vs Bind Mounts**
+
+|Docker Volumes	| Bind Mounts|
+|---------------|------------|
+Managed by Docker	|Direct host path
+Persistent app data	|Dev convenience
+Backups easy	| Manual control
 
 Usage in this project:
 
-MariaDB data → volume
+`MariaDB data → volume`
 
-WordPress files → volume
+`WordPress files → volume`
 
-📚 Resources
+## 📚 Resources
 
 Official documentation:
 
-Docker
+* [Docker](https://docs.docker.com/?_gl=1*eqq50w*_gcl_au*OTYwMDQwNDMxLjE3Njc5NDIwNjI.*_ga*MjEwNjUwMzU5Ny4xNzY3OTQyMDYy*_ga_XJWPQMJYHQ*czE3Njc5NDIwNjIkbzEkZzEkdDE3Njc5NDIwNzEkajUxJGwwJGgw)
 
-Docker Compose
+* [Docker Compose](https://docs.docker.com/compose)
 
-Nginx
+* [Nginx](https://nginx.org/en/docs)
 
-MariaDB
+* [MariaDB](https://mariadb.org/documentation/)
 
-WordPress
+* [WordPress](https://wordpress.com/)
 
-🤖 AI Usage Disclosure
+## 🤖 AI Usage Disclosure
 
-AI was used for:
+ AI was used for:
 
-README writing assistance
+* README writing assistance
 
-grammar improvement
+* grammar improvement
 
-restructuring explanations
+* restructuring explanations
 
 AI was not used to:
 
-write Dockerfiles
+* write Dockerfiles
 
-configure Nginx/MariaDB
+* configure Nginx/MariaDB
 
-implement project logic
+* implement project logic
 
-All configurations were written manually and understood.
+* All configurations were written manually and understood.
