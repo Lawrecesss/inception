@@ -57,7 +57,7 @@ Full cleanup (containers, images, volumes):
 
 The project must be accessible through the domain:
 
-[lshein.42.sg](https://lshein.42.fr)
+[lshein.42.fr](https://lshein.42.fr)
 
 Only HTTPS over port 443 is enabled.
 HTTP is disabled.
@@ -65,13 +65,13 @@ HTTP is disabled.
 **✅ Enabling the domain name locally**
 
 Add the following entry to your /etc/hosts file:
-`127.0.0.1   lshein.42.sg`
+`127.0.0.1   lshein.42.fr`
 
 Steps:
 
 * Open hosts file: `sudo nano /etc/hosts`
 
-* Add the host: `127.0.0.1   lshein.42.sg`
+* Add the host: `127.0.0.1   lshein.42.fr`
 
 * Save and exit
 
