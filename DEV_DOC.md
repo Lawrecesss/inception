@@ -49,7 +49,7 @@ Inception/
     │   ├── wordpress/
     │   │   ├── Dockerfile
     │   │   └── tools/
-    │   │       └── setup.sh
+    │   │       └── wp-config.sh
     │   └── mariadb/
     │       ├── Dockerfile
     │       └── tools/
