@@ -31,6 +31,31 @@ The Inception project is organized as follows:
 ```bash
 Inception/
 ├── Makefile
+├── README.md
+├── USER_DOC.md
+├── DEV_DOC.md
+├── secrets/
+│   ├── mariadb_pw
+│   ├── mariadb_root_pw
+│   ├── wordpress_db_pw
+│   ├── wordpress_admin_pw
+│   └── wordpress_user_pw
+└── srcs/
+    ├── docker-compose.yml
+    ├── requirements/
+    │   ├── nginx/
+    │   │   ├── Dockerfile
+    │   │   └── conf/
+    │   │       └── nginx.conf
+    │   ├── wordpress/
+    │   │   ├── Dockerfile
+    │   │   └── tools/
+    │   │       └── setup.sh
+    │   └── mariadb/
+    │       ├── Dockerfile
+    │       └── tools/
+    │           └── entrypoint.sh
+```
 
 ## 3. Secrets Configuration
 
