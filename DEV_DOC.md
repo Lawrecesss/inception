@@ -11,7 +11,7 @@ This document describes how developers can set up, build, run, and maintain the 
 Before starting with the **Inception** project, ensure the following tools and environment are set up:
 
 - **Linux Virtual Machine**: A Linux-based VM is recommended for running Docker and Docker Compose.
-- **Docker**: Required for containerizing the services.
+- **Docker Engine**: Required for containerizing the services.
   - Install Docker by following the official instructions [here](https://docs.docker.com/get-docker/).
   - Ensure Docker is running:
     ```bash
@@ -35,11 +35,10 @@ Inception/
 ├── USER_DOC.md
 ├── DEV_DOC.md
 ├── secrets/
-│   ├── mariadb_pw
-│   ├── mariadb_root_pw
-│   ├── wordpress_db_pw
-│   ├── wordpress_admin_pw
-│   └── wordpress_user_pw
+│   ├── db_root_pwd.txt
+│   ├── wp_db_pwd.txt
+│   ├── wp_admin_pwd.txt
+│   └── wp_user_pwd.txt
 └── srcs/
     ├── docker-compose.yml
     ├── requirements/
@@ -63,30 +62,16 @@ The `secrets/` directory contains sensitive configuration files such as password
 
 Secrets in the `secrets/` directory:
 
-- `mariadb_pw`: Password for the MariaDB user.
-- `mariadb_root_pw`: Password for the MariaDB root user.
-- `wordpress_db_pw`: Password for the WordPress database user.
-- `wordpress_admin_pw`: Password for the WordPress admin user.
-- `wordpress_user_pw`: Password for the default WordPress user.
+- `db_root_pwd.txt`: Password for the MariaDB root user.
+- `wp_db_pwd.txt`: Password for the WordPress database user.
+- `wp_admin_pwd.txt`: Password for the WordPress admin user.
+- `wp_user_pwd.txt`: Password for the default WordPress user.
 
 Important: These files should be kept secure and should never be committed to the repository.
 
-## 4. Building the Project
+## 4. Launching the Stack
 
-To build the project from scratch, use the Makefile to build the Docker images:
-
-```bash
-make build
-```
-
-This command performs the following tasks:
-
-- Builds each Docker image based on its respective Dockerfile in the `srcs/` directory.
-- Uses Debian-based images for each service (`nginx`, `mariadb`, `wordpress`).
-
-## 5. Launching the Stack
-
-Once the project is built, you can launch the services using Docker Compose:
+You can launch the services using Docker Compose:
 
 ```bash
 make up
@@ -104,14 +89,14 @@ This command:
 - Builds the containers if they have not been built previously.
 - Runs the containers in detached mode (`-d`).
 
-## 6. Managing Containers with Makefile
+## 5. Managing Containers with Makefile
 
 The `Makefile` provides several useful commands to manage the lifecycle of your Docker containers.
 
 - Restart the services (stop and then start containers):
 
 ```bash
-make restart
+make re
 ```
 
 - Stop services (without removing containers or volumes):
@@ -132,16 +117,16 @@ Docker volumes are used to store persistent data outside the container filesyste
 
 Volume Mappings:
 
-- MariaDB data: `/home/nsan/data/mariadb_data`
+- MariaDB data: `/home/lshein/data/db`
   - Purpose: Stores all the database files to ensure persistence of your MariaDB data.
 
-- WordPress data: `/home/nsan/data/wordpress_data`
+- WordPress data: `/home/lshein/data/wp`
   - Purpose: Stores WordPress website files, themes, plugins, and configuration files.
 
 Important Notes:
 
 - Data survives container rebuilds unless the volumes are explicitly removed.
-- If you need to back up the data, ensure you regularly back up the `/home/nsan/data/` directory.
+- If you need to back up the data, ensure you regularly back up the `/home/lshein/data/` directory.
 
 ## 8. Networking
 
@@ -194,7 +179,7 @@ make up
 ```
 
 - Update WordPress files: Modify files in the WordPress volume (for example: `wp-content/themes/`).
-- Backup Data: Ensure that `/home/nsan/data/` is regularly backed up to avoid data loss, particularly the `mariadb_data` and `wordpress_data` volumes.
+- Backup Data: Ensure that `/home/lshein/data/` is regularly backed up to avoid data loss, particularly the `mariadb_data` and `wordpress_data` volumes.
 
 docker compose logs -f
 
