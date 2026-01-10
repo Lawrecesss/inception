@@ -2,7 +2,7 @@
 
 Welcome to the Inception project! This document will guide you through the process of interacting with the various services provided, managing containers, and troubleshooting your environment.
 
-## 1. Services Provided by the Stack
+## 1. Services Provided
 
 The Inception project includes the following services:
 
@@ -12,7 +12,7 @@ MariaDB: A database server for handling the backend data of WordPress.
 
 WordPress: A content management system (CMS) for the website.
 
-## 2. Starting and Stopping the Project
+## 2. Starting and Stopping
 
 You can easily manage the project using Makefile commands. Here’s how to start and stop the services:
 
@@ -48,7 +48,7 @@ http://lshein.42.fr
 The WordPress admin panel can be accessed at:
 http://lshein.42.fr/wp-admin
 
-## 4. Configuring Paths and Secret Files
+## 4. Secret Files
 
 Environment variables are defined in .env and passwords are stored securely using Docker secrets.
 
