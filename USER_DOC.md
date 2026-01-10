@@ -56,14 +56,14 @@ Environment variables are defined in .env and passwords are stored securely usin
 
 You can check the status of the services to ensure they are running correctly:
 
-* Check Running Services
+*Check Running Services
 
 To check if all services are running correctly, run the following:
 `docker ps`
 
 This will list all running Docker containers, including Nginx, MariaDB, and WordPress. Ensure that all containers are listed and running.
 
-* Check Logs
+*Check Logs
 
 You can view logs for individual services to check for any errors:
 
@@ -74,19 +74,19 @@ Nginx Logs:
 
 MariaDB Logs:
 
-`docker logs <mariadb_container_name>
+`docker logs <mariadb_container_name>`
 
 
 WordPress Logs:
 
 `docker logs <wordpress_container_name>`
 
-* Check Website Access
+*Check Website Access
 
 Open the browser and visit http://lshein.42.fr to ensure the website loads.
 
 If the website does not load, check the Nginx container logs for potential issues.
 
-* Check Admin Panel Access
+*Check Admin Panel Access
 
 Visit http://lshein.42.fr/wp-admin to ensure you can access the WordPress admin panel. If login fails, check if the WordPress container is running and verify the credentials.
